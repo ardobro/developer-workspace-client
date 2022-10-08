@@ -1,14 +1,15 @@
+import classNames from "classnames";
+import { Link, useLocation } from "react-router-dom";
 import CalendarIcon from "assets/icons/calendar.svg";
 import DashboardIcon from "assets/icons/dashboard.svg";
 import UsersIcon from "assets/icons/users.svg";
-import classNames from "classnames";
 import styles from "./menu.module.scss";
+import { useCallback } from "react";
 
 type Item = {
   key: string;
   label: string;
   link: string;
-  active: boolean;
   icon: string;
 };
 
@@ -16,42 +17,46 @@ const items: Item[] = [
   {
     key: "1",
     label: "Dashboard",
-    link: "dashboard",
-    active: true,
+    link: "/dashboard",
     icon: DashboardIcon,
   },
   {
     key: "2",
     label: "Schedule",
-    link: "schedule",
-    active: false,
+    link: "/schedule",
     icon: CalendarIcon,
   },
   {
     key: "3",
     label: "Talent Manager",
-    link: "talent-manager",
-    active: false,
+    link: "/talent-manager",
     icon: UsersIcon,
   },
 ];
 
 const Menu: React.FC = () => {
-  const renderItem = ({ active, key, link, icon: Icon, label }: Item) => {
-    return (
-      <li className={styles.item} key={key}>
-        <a
-          className={classNames(styles.link, { [styles.active]: active })}
-          href={link}
-        >
-          <div className={styles.icon}>
-            <Icon />
-          </div>
-          {label}
-        </a>
-      </li>
-    );
-  };
+  const location = useLocation();
+
+  const renderItem = useCallback(
+    ({ key, link, icon: Icon, label }: Item) => {
+      const isActive = location.pathname === link;
+
+      return (
+        <li className={styles.item} key={key}>
+          <Link
+            className={classNames(styles.link, { [styles.active]: isActive })}
+            to={link}
+          >
+            <div className={styles.icon}>
+              <Icon />
+            </div>
+            {label}
+          </Link>
+        </li>
+      );
+    },
+    [location.pathname]
+  );
 
   return (
     <nav>
