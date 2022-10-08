@@ -1,0 +1,51 @@
+.list {
+    display: grid;
+    row-gap: 8px;
+}
+
+@mixin active {
+    color: #f9f9f9;
+
+    .icon {
+        fill: #f9f9f9;
+    }
+}
+
+.item {
+    position: relative;
+}
+
+.link {
+    color: #a5a5a5;
+    display: grid;
+    font-size: 14px;
+    gap: 16px;
+    grid-template-columns: 20px 1fr;
+    line-height: 20px;
+    padding: 8px 32px;
+
+    &:hover {
+        @include active;
+        background-color: rgba(#ed5138, 0.5);
+    }
+}
+
+.icon {
+    fill: #a5a5a5;
+    height: 20px;
+    width: 20px;
+}
+
+.active {
+    @include active;
+
+    &::after {
+        background-color: #ed5138;
+        bottom: 8px;
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 8px;
+        width: 4px;
+    }
+}
